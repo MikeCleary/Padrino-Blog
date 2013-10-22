@@ -1,0 +1,9 @@
+---
+:orm: activerecord
+:test: shoulda
+:mock: none
+:script: none
+:renderer: erb
+:stylesheet: none
+:namespace: PadrinoBlog
+:migration_format: number
