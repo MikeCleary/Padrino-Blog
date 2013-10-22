@@ -19,7 +19,7 @@ gem 'activerecord', '>= 3.1', :require => 'active_record'
 gem 'sqlite3'
 
 # Test requirements
-gem 'shoulda', :group => 'test'
+gem 'shoulda', '~> 3.4.0', :group => 'test'
 gem 'rack-test', :require => 'rack/test', :group => 'test'
 
 # Padrino Stable Gem

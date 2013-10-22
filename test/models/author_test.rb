@@ -18,7 +18,7 @@ class AuthorTest < Test::Unit::TestCase
       assert_equal "@dmgarland", @author.twitter
       assert_equal 1, @author.posts.length
       assert_equal Post, @author.posts.first.class
-      assert_equal @author, @author,posts.first.author
+      assert_equal @author, @author.posts.first.author
 
     end
   end
