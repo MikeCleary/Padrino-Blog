@@ -11,7 +11,7 @@ class PostTest < Test::Unit::TestCase
 
       @post.tags << Tag.new(:name => "Active Record")
       @post.comments << Comment.new(:content => "What a great post", 
-        :post_date => Time.now)
+        :comment_date => Time.now)
 
       @post.save!
       @post.reload
