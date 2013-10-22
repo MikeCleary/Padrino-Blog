@@ -24,8 +24,11 @@ class TagTest < Test::Unit::TestCase
       @post.tags << @ar
       @post.tags << @ruby
       @post.tags << @sql
+      @post.save!
+      @post.reload
 
       assert_equal 3, @post.tags.length
+      binding.pry
       assert_equal @sql, @post.tags[0]
       assert_equal @ruby, @post.tags[1]
       assert_equal @ar, @post.tags[2]
