@@ -3,8 +3,7 @@
 
 <% form_for @post, url_for(:posts, :create) do |f| %>
   <fieldset>
-    <%= f.select :author_id, :options => [['Dan', 1] , ['SomeOtherDude', 2]],  
-    :selected => 'Dan' %>
+    <%= f.select :author_id, :options => @authors %>
   </fieldset>
 
   <%= partial 'posts/form', :locals => {:f => f} %>
@@ -12,3 +11,4 @@
   <%= input_tag :submit, :value => "Publish Post" %>
 
 <% end %>
+

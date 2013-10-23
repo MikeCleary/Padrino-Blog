@@ -74,4 +74,100 @@ class PostsControllerTest < Test::Unit::TestCase
       assert_equal '/posts/1', last_request.path
     end
   end
+
+  context "Updating a post" do
+    setup do
+      @dan = Author.create(:first_name => "Dan",
+        :last_name => "Garland", :twitter => "@dmgarland")
+
+      @post = Post.create(
+        :title => 'My Incredible Post', 
+        :content => Faker::Lorem.words(50).join(" ") + "Hello World",
+        :author => @dan,
+        :post_date => Date.today
+        )
+
+      form_parameters = { :post => {
+        :title => "My Amazing Blog Post",
+        :content => Faker::Lorem.words(50).join(" "),
+        :author_id => @dan.id
+        }
+      }  
+      put "/posts/update/#{@post.id}" , form_parameters
+    end
+
+    should "update a post" do
+      assert_equal 1, Post.count
+
+      @post = Post.first
+      assert_equal "My Amazing Blog Post", @post.title
+      assert_not_nil @post.content
+      assert_equal @dan, @post.author
+      assert_equal Date.today, @post.post_date
+      assert_equal Date.today, @post.post_date
+      assert_equal 'my-amazing-blog-post', @post.slug
+    end
+
+    should "Redirect yout to the posts page" do
+      assert_equal 302, last_response.status
+      follow_redirect!
+      assert_equal '/posts/1', last_request.path
+    end
+  end
+
+  context "Destroy a post" do
+    setup do
+      @post = Post.create(:title => 'My Incredible Post', 
+        :content => Faker::Lorem.words(50).join(" ") + "Hello World")
+
+      delete "/posts/#{@post.id}"
+    end
+
+    should "Redirect to the posts index page" do
+      assert_equal 302, last_response.status
+      follow_redirect!
+      assert_equal '/posts', last_request.path
+    end
+
+    should "delete post" do
+      assert_equal 0, Post.count
+    end
+  end
+
+  context "List all Posts by Tag" do
+    setup do
+      @amazing_post = Post.create(:title => 'My Amazing Post',
+        :post_date => Date.today)
+        @amazing_post.tags << Tag.create(:name => "Ruby")
+        @amazing_post.save
+
+        @astounding_post = Post.new(:title => "My Astounding Post",
+          :post_date => Date.today)
+        @astounding_post.tags << Tag.create(:name => "Active Record")
+        @astounding_post.save
+
+        get '/posts/tagged/ruby'
+    end
+
+    should "show me the post tagged Ruby" do 
+      assert_match /My Amazing Post/, last_response.body
+      assert_no_match /My Astounding Post/, last_response.body
+    end
+  end
+     
+  context "List all Posts by Author" do
+    setup do
+      @dan = Author.create(:first_name => "Dan",
+        :last_name => "Garland", :twitter => "@dmgarland")
+
+      @post = Post.create(:title => "My Incredible Post",
+        :content => "Hello World", :author => @dan)
+      
+      get "/posts/by/#{@dan.id}"
+    end
+
+    should "show me Dan's posts" do 
+      assert_match /My Incredible Post/, last_response.body
+    end
+  end   
 end
