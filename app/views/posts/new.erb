@@ -1,0 +1,12 @@
+<h2>New Post</h2>
+
+<% form_for @post, url_for(:posts, :create) do |f| %>
+
+<fieldset>
+  <%= f.label :content %>
+  <%= f.text_field :content %>
+</fieldset>
+
+<fieldset>
+<%= f.text_field :post_date :value => "#{Date.now}" %>
+</fieldset>
