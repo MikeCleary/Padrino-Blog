@@ -1,12 +1,14 @@
 <h2>New Post</h2>
 
+
 <% form_for @post, url_for(:posts, :create) do |f| %>
+  <fieldset>
+    <%= f.select :author_id, :options => [['Dan', 1] , ['SomeOtherDude', 2]],  
+    :selected => 'Dan' %>
+  </fieldset>
 
-<fieldset>
-  <%= f.label :content %>
-  <%= f.text_field :content %>
-</fieldset>
+  <%= partial 'posts/form', :locals => {:f => f} %>
 
-<fieldset>
-<%= f.text_field :post_date :value => "#{Date.now}" %>
-</fieldset>
+  <%= input_tag :submit, :value => "Publish Post" %>
+
+<% end %>

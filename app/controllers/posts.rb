@@ -20,22 +20,27 @@ PadrinoBlog::App.controllers :posts do
   # end
   
   get :index, :map => '/posts' do
-    @posts = Post.all
+    @posts = Post.order("post_date DESC").all  
     render 'posts/index'
   end
 
-  get :show, :with => :id, :map => '/post' do
+  get :new, :map => '/posts/new' do
+    @post = Post.new
+    render 'posts/new'
+  end
+
+  get :show, :with => :id, :map => '/posts' do
     @post = Post.find(params[:id])
     render 'posts/show'
   end
 
-  get :new do
-    @post = Post.new
-    erb :new
-  end
-
   post :create do
-
+    p = Post.new(params[:post])
+    p.post_date = Date.today
+    p.slug = p.title.downcase.gsub!(" ", "-")
+    p.save
+    p.reload
+    redirect to url_for(:posts, :show, :id => p.id)
   end
 
   get :edit do

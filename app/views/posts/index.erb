@@ -1,8 +1,8 @@
 <h1>All <%= @posts.length %> Posts</h1>
 <ul>
-  <% @posts.each do |post| %>
+  <% @posts.each_with_index do |post, post_number| %>
     <li>
-      <h2><%= post.title %></h2>
+      <h2><%="#{post_number + 1}. #{post.title}" %></h2>
       <p><%= post.content %></p>
       <p>Posted:<%= post.post_date %></p>
     </li>
