@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 5) do
+ActiveRecord::Schema.define(:version => 9) do
 
   create_table "authors", :force => true do |t|
     t.string   "first_name"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(:version => 5) do
     t.string   "twitter"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "email"
+    t.string   "github"
   end
 
   create_table "comments", :force => true do |t|
@@ -44,12 +46,14 @@ ActiveRecord::Schema.define(:version => 5) do
     t.text     "content"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "slug"
   end
 
   create_table "tags", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "popularity"
   end
 
 end
