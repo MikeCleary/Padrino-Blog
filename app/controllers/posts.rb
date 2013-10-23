@@ -24,8 +24,9 @@ PadrinoBlog::App.controllers :posts do
     render 'posts/index'
   end
 
-  get :show do
-
+  get :show, :with => :id, :map => '/post' do
+    @post = Post.find(params[:id])
+    render 'posts/show'
   end
 
   get :new do

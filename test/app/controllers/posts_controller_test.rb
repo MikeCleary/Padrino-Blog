@@ -9,8 +9,13 @@ class PostsControllerTest < Test::Unit::TestCase
     end
 
     should "return Posts text" do
-      assert_match "All Posts", last_response.body
+      assert_match "All 3 Posts", last_response.body
       assert_match "My Amazing Post", last_response.body
     end
   end
+
+  context "An individual post" do
+
+  end
+
 end
