@@ -1,6 +1,10 @@
 <h2>New Post</h2>
 
-
+<% if @post.errors %>
+  <ul>
+  <% @post.errors.full_messages.each do |message| %>
+    <li><%=message%></li>
+  </ul>
 <% form_for @post, url_for(:posts, :create) do |f| %>
 
   <fieldset>

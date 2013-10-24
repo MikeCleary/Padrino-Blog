@@ -19,12 +19,14 @@ PadrinoBlog::App.controllers :posts do
   end
 
   post :create do
-    p = Post.new(params[:post])
-    p.post_date = Date.today
-    p.slug = p.get_slug(p.title)
-    p.save
-    p.reload
-    redirect to url_for(:posts, :show, :id => p.id)
+    @post = Post.new(params[:post])
+    @post.post_date = Date.today
+    @post.slug = @post.get_slug(p.title)
+    if @post.save
+      redirect to url_for(:posts, :show, :id => @post.id)
+    else
+      redirect to url_for(:posts, :new, :locals => @post)
+    end    
   end
 
   get :edit, :with => :id, :map => '/posts/edit' do
@@ -49,10 +51,10 @@ PadrinoBlog::App.controllers :posts do
   get :tagged, :with => :tag, :map => '/posts/tagged' do
     @posts = Post.includes(:tags).where("tags.name =?", params[:tag].capitalize!)
     render 'posts/index'
+  #OR
+  # get :tagged, :with => :tag, :map => '/posts/tagged' do
+  #   @posts = Tag.where("name =?", params[:tag].capitalize!).first.posts
+  #   render 'posts/index'
   end
 
-  # get 'tagged/by/', :with => :tag do
-  #   @posts = Tag.where(:name => ?, params[:tag]).posts.publihsed
-  #   render 'post/index'
-  # end
 end
