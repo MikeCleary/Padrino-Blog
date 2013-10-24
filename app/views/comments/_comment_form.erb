@@ -1,0 +1,6 @@
+
+<% form_for @comment, url_for(:comments, :create,) do |f| %>
+  <%= f.hidden_field :post_id %>
+  <%= f.text_area :content %>
+  <%= input_tag :submit, :value => "Post comment" %>
+<% end %>

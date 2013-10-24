@@ -1,0 +1,8 @@
+  <ul class="tag_box">
+    <% @tags.each do |tag| %>
+      <li>
+        <%= f.label "#{tag.name}" %>
+        <%= f.check_box :tag_id %>
+      </li>
+    <% end %>
+  </ul>

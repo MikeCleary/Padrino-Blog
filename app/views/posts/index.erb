@@ -2,8 +2,8 @@
 <ul>
   <% @posts.each_with_index do |post, post_number| %>
     <li>
-      <h2><%="#{post_number + 1}. #{post.title}" %></h2>
-      <p><%= post.content %></p>
+      <h2><%= post_number + 1 %>. <%= link_to "#{post.title}", url_for(:posts, :show, :id => post.id)%></h2>
+            <p><%= post.content %></p>
       <p class="post-date">Posted: <%= post.post_date %></p>
     </li>
   <% end %>

@@ -1,13 +1,15 @@
 <h2>Edit Post</h2>
 
-<% form_for @post, url_for(:posts, :create) do |f| %>
-
+<% form_for @post, url_for(:posts, :update, :id => @post.id), {:method => "PUT"} do |f| %>
+  <fieldset>
   <%= partial 'posts/form', :locals => {:f => f} %>
 
   <%= input_tag :submit, :value => "Update Post" %>
   
 <% end %>
 
-<% form_for @post @post, url_for(:person, :delete, :id => @post.id), {:method "DELETE"} %> do |f| %>
+<% form_for @post, url_for(:posts, :destroy, :id => @post.id), {:method => "DELETE"} do |f| %>
 <%= input_tag :submit, :value => "Delete Post" %>
 <% end %>
+</fieldset>
+

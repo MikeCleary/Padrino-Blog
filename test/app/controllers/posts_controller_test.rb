@@ -3,9 +3,18 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_config.rb')
 class PostsControllerTest < Test::Unit::TestCase
   context "PostsController" do
     setup do
-      Post.create(:title => 'My Amazing Post', :post_date => Date.today, :published => true)
-      Post.create(:title => 'My Amazinger Post', :post_date => Date.today + 1)
-      Post.create(:title => 'The Most Amazingest Post', :post_date => Date.today + 2, :published => true)
+      @dan = Author.create(:first_name => "Dan",
+        :last_name => "Garland", :twitter => "@dmgarland")
+      Post.create(:title => 'My Amazing Post', :post_date => Date.today,  
+        :published => true,
+        :author => @dan)
+      Post.create(:title => 'My Amazinger Post', 
+        :post_date => Date.today + 1, 
+        :author => @dan)
+      Post.create(:title => 'The Most Amazingest Post', 
+        :post_date => Date.today + 2, 
+        :published => true,
+        :author => @dan)
 
       get '/posts'
     end
@@ -20,10 +29,11 @@ class PostsControllerTest < Test::Unit::TestCase
 
   context "An individual post" do
     setup do 
+      @dan = Author.create(:first_name => "Dan",
+        :last_name => "Garland", :twitter => "@dmgarland")
       @post = Post.create(:title => 'My Incredible Post', 
         :content => Faker::Lorem.words(50).join(" ") + "Hello World",
-        :published => true)
-
+        :published => true, :author => @dan)
       get "/posts/#{@post.id}"
     end
     
@@ -53,7 +63,6 @@ class PostsControllerTest < Test::Unit::TestCase
         :published => true
         }
       }
-
       post '/posts/create', form_parameters
     end
 
@@ -107,7 +116,7 @@ class PostsControllerTest < Test::Unit::TestCase
       assert_equal @dan, @post.author
       assert_equal Date.today, @post.post_date
       assert_equal Date.today, @post.post_date
-      assert_equal 'my-amazing-blog-post', @post.slug
+      assert_equal 'my-incredible-post', @post.slug
     end
 
     should "Redirect yout to the posts page" do
@@ -119,8 +128,11 @@ class PostsControllerTest < Test::Unit::TestCase
 
   context "Destroy a post" do
     setup do
+      @dan = Author.create(:first_name => "Dan",
+        :last_name => "Garland", :twitter => "@dmgarland")
       @post = Post.create(:title => 'My Incredible Post', 
-        :content => Faker::Lorem.words(50).join(" ") + "Hello World")
+        :content => Faker::Lorem.words(50).join(" ") + "Hello World", 
+        :author_id => @dan.id)
 
       delete "/posts/#{@post.id}"
     end
@@ -138,14 +150,20 @@ class PostsControllerTest < Test::Unit::TestCase
 
   context "List all Posts by Tag" do
     setup do
-      @amazing_post = Post.create(:title => 'My Amazing Post',
-        :post_date => Date.today)
-      @amazing_post.tags << Tag.create(:name => "Ruby")
+      @dan = Author.create(
+        :first_name => "Dan",
+        :last_name => "Garland", 
+        :twitter => "@dmgarland")
+      @amazing_post = Post.create(
+        :title => 'My Amazing Post',
+        :post_date => Date.today, 
+        :author => @dan)
+      @amazing_post.tags << Tag.create(:name => "Ruby", :popularity => 1)
       @amazing_post.save
 
       @astounding_post = Post.new(:title => "My Astounding Post",
         :post_date => Date.today)
-      @astounding_post.tags << Tag.create(:name => "Active Record")
+      @astounding_post.tags << Tag.create(:name => "Active Record", :popularity => 1)
       @astounding_post.save
 
       get '/posts/tagged/ruby'
@@ -157,19 +175,24 @@ class PostsControllerTest < Test::Unit::TestCase
     end
   end
      
-  # context "List all Posts by Author" do
-  #   setup do
-  #     @dan = Author.create(:first_name => "Dan",
-  #       :last_name => "Garland", :twitter => "@dmgarland")
+   context "List all Posts by Author" do
+     setup do
+       @dan = Author.create(
+         :first_name => "Dan",
+         :last_name => "Garland", 
+         :twitter => "@dmgarland",)
 
-  #     @post = Post.create(:title => "My Incredible Post",
-  #       :content => "Hello World", :author => @dan)
+       @post = Post.create(
+         :title => "My Incredible Post",
+         :content => "Hello World", 
+         :author => @dan, 
+         :published => true)
       
-  #     get "/posts/by/#{@dan.id}"
-  #   end
+       get "/posts/by/#{@dan.id}"
+     end
 
-  #   should "show me Dan's posts" do 
-  #     assert_match /My Incredible Post/, last_response.body
-  #   end
-  # end   
+     should "show me Dan's posts" do 
+       assert_match /My Incredible Post/, last_response.body
+     end
+   end   
 end

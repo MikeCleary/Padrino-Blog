@@ -1,19 +1,24 @@
 <h2>New Post</h2>
 
-<% if @post.errors %>
-  <ul>
+<% if @post.errors.any? %>
+  <ul class="errors">
   <% @post.errors.full_messages.each do |message| %>
     <li><%=message%></li>
+  <% end %>
   </ul>
+<% end %>
+
 <% form_for @post, url_for(:posts, :create) do |f| %>
 
   <fieldset>
-    <%= f.select :author_id, :options => @authors %>
-  </fieldset>
+    <%= f.label :Author %>
+    <%= f.select :author_id, :options => @authors %></br>
 
   <%= partial 'posts/form', :locals => {:f => f} %>
 
-  <%= input_tag :submit, :value => "Publish Post" %>
+  <%= input_tag :submit, :value => "Save Post" %>
 
 <% end %>
+
+</fieldset>
 

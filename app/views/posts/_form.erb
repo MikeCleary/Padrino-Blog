@@ -1,9 +1,15 @@
-<fieldset>
   <%= f.label :title %>
-  <%= f.text_field :title %>
+  <%= f.text_area :title, :cols => 70 %>
 </fieldset>
 
 <fieldset>
   <%= f.label :content %>
-  <%= f.text_area :content %>
+  <%= f.text_area :content, :cols => 77, :rows => 20 %></br>
 </fieldset>
+
+<fieldset>
+<%= f.label :publish %>
+<%= f.check_box :published %>
+</fieldset>
+
+<%= f.select :tag_ids, :options => @tags, :multiple => true %>

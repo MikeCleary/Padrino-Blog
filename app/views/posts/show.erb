@@ -1,5 +1,11 @@
 <h1><%= @post.title %></h1>
-<p class="post-date"><%= @post.post_date %></p>
 <div id="content">
-  <p><%= @post.content %></p>
+  <p><%= @post.content %></br> <span class="post-date"><%= @post.post_date %></span></p>
+  <%= link_to "edit post", url_for(:posts, :edit, :id => @post.id) %>
+</div>
+<%= partial 'comments/comment_form'%>
+<div class="comments">
+<% @post.comments.each do |comment| %>
+  <p><%=comment.content%></p>
+<% end %>
 </div>
