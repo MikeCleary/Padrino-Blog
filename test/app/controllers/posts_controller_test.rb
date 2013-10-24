@@ -3,17 +3,16 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_config.rb')
 class PostsControllerTest < Test::Unit::TestCase
   context "PostsController" do
     setup do
-      Post.create(:title => 'My Amazing Post', :post_date => Date.today)
+      Post.create(:title => 'My Amazing Post', :post_date => Date.today, :published => true)
       Post.create(:title => 'My Amazinger Post', :post_date => Date.today + 1)
-      Post.create(:title => 'The Most Amazingest Post', :post_date => Date.today + 2)
+      Post.create(:title => 'The Most Amazingest Post', :post_date => Date.today + 2, published => true)
 
       get '/posts'
     end
 
     should "return Posts text" do
       assert_match /All 3 Posts/, last_response.body
-      assert_match /3. My Amazing Post/, last_response.body
-      assert_match /2. My Amazinger Post/, last_response.body
+      assert_match /2. My Amazing Post/, last_response.body
       assert_match /1. The Most Amazingest Post/, last_response.body
 
     end
