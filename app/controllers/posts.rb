@@ -3,7 +3,7 @@ PadrinoBlog::App.controllers :posts do
   layout :main
     
   get :index, :map => '/posts' do
-    @posts = Post.order("post_date DESC").all  
+    @posts = Post.published.posted_before(Date.today)
     render 'posts/index'
   end
 
@@ -14,7 +14,7 @@ PadrinoBlog::App.controllers :posts do
   end
 
   get :show, :with => :id, :map => '/posts' do
-    @post = Post.find(params[:id])
+    @post = Post.published.find(params[:id])
     render 'posts/show'
   end
 
@@ -47,9 +47,12 @@ PadrinoBlog::App.controllers :posts do
   end
 
   get :tagged, :with => :tag, :map => '/posts/tagged' do
-    @posts = Post.includes(:tags).where('tags.name = ?' params[:tag])
-
-    binding.pry
+    @posts = Post.includes(:tags).where("tags.name =?", params[:tag].capitalize!)
+    render 'posts/index'
   end
 
+  # get 'tagged/by/', :with => :tag do
+  #   @posts = Tag.where(:name => ?, params[:tag]).posts.publihsed
+  #   render 'post/index'
+  # end
 end

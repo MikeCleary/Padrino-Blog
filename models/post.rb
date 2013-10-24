@@ -8,4 +8,6 @@ class Post < ActiveRecord::Base
     title.downcase.gsub(" ", "-")
   end
 
+  scope :published, where(:published => true).order("post_date DESC")
+  scope :posted_before, Proc.new{ |time| where('post_date <= ?', time)}
 end
