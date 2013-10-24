@@ -138,15 +138,15 @@ class PostsControllerTest < Test::Unit::TestCase
     setup do
       @amazing_post = Post.create(:title => 'My Amazing Post',
         :post_date => Date.today)
-        @amazing_post.tags << Tag.create(:name => "Ruby")
-        @amazing_post.save
+      @amazing_post.tags << Tag.create(:name => "Ruby")
+      @amazing_post.save
 
-        @astounding_post = Post.new(:title => "My Astounding Post",
-          :post_date => Date.today)
-        @astounding_post.tags << Tag.create(:name => "Active Record")
-        @astounding_post.save
+      @astounding_post = Post.new(:title => "My Astounding Post",
+        :post_date => Date.today)
+      @astounding_post.tags << Tag.create(:name => "Active Record")
+      @astounding_post.save
 
-        get '/posts/tagged/ruby'
+      get '/posts/tagged/ruby'
     end
 
     should "show me the post tagged Ruby" do 

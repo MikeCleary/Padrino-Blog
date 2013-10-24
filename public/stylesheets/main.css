@@ -1,0 +1,35 @@
+
+body {
+  background-color: #616161;
+  font-family: Verdana;
+  background-image: url(../images/texture-background.jpg);
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+fieldset {
+  background-color: white;
+  border-radius: 10px;
+}
+
+.main {
+  width: 850px;
+  margin: auto;
+}
+
+h2 {
+  margin: 0;
+}
+
+.post-date {
+  font-style: italic;
+  text-align: right;
+}

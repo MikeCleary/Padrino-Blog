@@ -2,6 +2,7 @@
 
 
 <% form_for @post, url_for(:posts, :create) do |f| %>
+
   <fieldset>
     <%= f.select :author_id, :options => @authors %>
   </fieldset>

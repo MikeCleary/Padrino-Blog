@@ -1,24 +1,7 @@
 PadrinoBlog::App.controllers :posts do
-  
-  # get :index, :map => '/foo/bar' do
-  #   session[:foo] = 'bar'
-  #   render 'index'
-  # end
 
-  # get :sample, :map => '/sample/url', :provides => [:any, :js] do
-  #   case content_type
-  #     when :js then ...
-  #     else ...
-  # end
-
-  # get :foo, :with => :id do
-  #   'Maps to url '/foo/#{params[:id]}''
-  # end
-
-  # get '/example' do
-  #   'Hello world!'
-  # end
-  
+  layout :main
+    
   get :index, :map => '/posts' do
     @posts = Post.order("post_date DESC").all  
     render 'posts/index'
@@ -61,6 +44,12 @@ PadrinoBlog::App.controllers :posts do
     @post = Post.find(params[:id])
     @post.destroy
     redirect to url_for(:posts, :index)
+  end
+
+  get :tagged, :with => :tag, :map => '/posts/tagged' do
+    @posts = Post.includes(:tags).where('tags.name = ?' params[:tag])
+
+    binding.pry
   end
 
 end
