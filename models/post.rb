@@ -36,9 +36,7 @@ class Post < ActiveRecord::Base
     self.slug = self.title.downcase.gsub(" ", "-")
   end
   
-  before_create do  
-    get_slug
-  end
+  before_create :get_slug
 
   before_validation do
     self.post_date = Date.today

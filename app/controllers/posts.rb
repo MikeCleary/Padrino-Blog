@@ -16,8 +16,7 @@ PadrinoBlog::App.controllers :posts do
 
   get :show, :with => :id, :map => '/posts' do
     @post = Post.published.find(params[:id])
-    @comment = Comment.new
-    @comment.post = @post
+    @comment = Comment.new(:post => @post)
     render 'posts/show'
   end
 
